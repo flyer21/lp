@@ -8,14 +8,14 @@ Page({
   data: {
     motto: '田园装饰报价',
     isSubmit: false,
-    // userInfo: {},
+    userInfo: {},
     phone: "",
     name: "",
     area: "",
     // formValue: {},
 
-    // hasUserInfo: false,
-    // canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     //30.1071178871,104.6337890625
     longitude: 104.6337890625,
     latitude: 30.1071178871,
@@ -87,32 +87,32 @@ Page({
   //     url: '../logs/logs'
   //   })
   // },
-  formSubmit: function (e) {
+  formSubmit: function (e:any) {
 
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     let { phone, area, name } = e.detail.value;
     if (!phone) {
-      this.setData({
+      this.setData!({
         warn: "手机号为空！",
         isSubmit: true
       })
       return;
     }; 
     if (!area) {
-      this.setData({
+      this.setData!({
         warn: "手机号为空！",
         isSubmit: true
       })
       return;
     }; 
     if (!name) {
-      this.setData({
+      this.setData!({
         warn: "手机号为空！",
         isSubmit: true
       })
       return;
     }
-    this.setData({
+    this.setData!({
       warn: "",
       isSubmit: true,
       phone,
@@ -127,36 +127,36 @@ Page({
   },
   formReset: function () {
     console.log('form发生了reset事件')
-  }
+  },
 
   onLoad() {
     console.log('onload')
-    // if (app.globalData.userInfo) {
-    //   this.setData!({
-    //     userInfo: app.globalData.userInfo,
-    //     hasUserInfo: true,
-    //   })
-    // } else if (this.data.canIUse){
-    //   // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-    //   // 所以此处加入 callback 以防止这种情况
-    //   app.userInfoReadyCallback = (res) => {
-    //     this.setData!({
-    //       userInfo: res,
-    //       hasUserInfo: true
-    //     })
-    //   }
-    // } else {
-    //   // 在没有 open-type=getUserInfo 版本的兼容处理
-    //   wx.getUserInfo({
-    //     success: res => {
-    //       app.globalData.userInfo = res.userInfo
-    //       this.setData!({
-    //         userInfo: res.userInfo,
-    //         hasUserInfo: true
-    //       })
-    //     }
-    //   })
-    // }
+    if (app.globalData.userInfo) {
+      this.setData!({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true,
+      })
+    } else if (this.data.canIUse){
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = (res) => {
+        this.setData!({
+          userInfo: res,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData!({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
   },
 
   // getUserInfo(e: any) {
