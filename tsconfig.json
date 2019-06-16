@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strictNullChecks": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "module": "CommonJS",
     "target": "ES5",
     "allowJs": false,
@@ -15,6 +15,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
+    
+ 
+  
+
+
     "removeComments": true,
     "pretty": true,
     "strictPropertyInitialization": true,

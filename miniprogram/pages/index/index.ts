@@ -1,7 +1,15 @@
 //index.js
 //获取应用实例
-import { IMyApp } from '../../app'
-
+// declare let AV: any;
+import { IMyApp } from '../../app';
+// declare const require: any; // <-- 新增
+// export declare class AV {
+//   type: string;
+//   message: string;
+//   init:any
+// }
+// import  AV from '../../libs/av-weapp-min';
+import AV = require ('../../libs/av-weapp-min.js');
 const app = getApp<IMyApp>()
 
 Page({
@@ -87,7 +95,7 @@ Page({
   //     url: '../logs/logs'
   //   })
   // },
-  formSubmit: function (e:any) {
+  formSubmit: function (e: any) {
 
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     let { phone, area, name } = e.detail.value;
@@ -97,28 +105,45 @@ Page({
         isSubmit: true
       })
       return;
-    }; 
+    };
     if (!area) {
       this.setData!({
-        warn: "手机号为空！",
+        warn: "面积为空！",
         isSubmit: true
       })
       return;
-    }; 
+    };
     if (!name) {
       this.setData!({
-        warn: "手机号为空！",
+        warn: "姓名为空！",
         isSubmit: true
       })
       return;
     }
-    this.setData!({
+    let data = {
       warn: "",
       isSubmit: true,
       phone,
       name,
       area,
       // sex
+    };
+
+
+    var APP_ID = 'RFUC5CFPuJivPzoAYM7XHWRH-gzGzoHsz';
+    // RFUC5CFPuJivPzoAYM7XHWRH - gzGzoHsz
+    var APP_KEY = 'HsWAUAeFat2K2aJOpAuo2TIy';
+    AV.init({
+      appId: APP_ID,
+      appKey: APP_KEY
+    });
+
+    var Customer = AV.Object.extend('Customer');
+    var customer = new Customer();
+    let me = this;
+    customer.save(data).then(function (object: any) {
+      console.info('LeanCloud Rocks!' + object);
+      me.setData!(data)
     })
 
     // wx.navigateTo({
@@ -131,12 +156,13 @@ Page({
 
   onLoad() {
     console.log('onload')
+
     if (app.globalData.userInfo) {
       this.setData!({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true,
       })
-    } else if (this.data.canIUse){
+    } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = (res) => {
